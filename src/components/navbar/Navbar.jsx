@@ -12,11 +12,10 @@ const Navbar = () => {
       </div>
       <div>
         <svg className='size-72 pr-4' viewBox="0 0 428 425" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M373 27H409" stroke="#D1A121" stroke-width="5.19678" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M373 41.6699H409" stroke="#D1A121" stroke-width="5.19678" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M373 56.3403H409" stroke="#D1A121" stroke-width="5.19678" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M373 27H409" stroke="#D1A121" strokeWidth="5.19678" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M373 41.6699H409" stroke="#D1A121" strokeWidth="5.19678" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M373 56.3403H409" stroke="#D1A121" strokeWidth="5.19678" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-
       </div>
     </div>
   )
