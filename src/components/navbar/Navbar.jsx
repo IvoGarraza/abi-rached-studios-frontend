@@ -11,14 +11,14 @@ const Navbar = () => {
 
 
   return (
-    <div className="w-full h-24 fixed flex flex-row justify-between top-0 left-0 z-50 bg-black/20">
-      <div className='sm:w-[20%] w-1/2 pl-4 pt-4'>
-        <Image src={logo} alt="logo-navbar" className="w-2/3">
+    <div className="w-full h-24 fixed flex flex-row justify-between sm:x-12 px-2 top-0 left-0 z-50 bg-black/20">
+      <div className='sm:w-[20%] w-1/2 sm:pt-4 pt-2'>
+        <Image src={logo} alt="logo-navbar" className="sm:w-1/2 w-[80%]">
         </Image>
       </div>
       {/* Menu para movil */}
       <div className='sm:hidden flex'>
-        {mobile ? <IoClose size={72} color='#D1A121' className="pr-4 mt-4" onClick={() => setMobile(false)} /> : <IoMenu size={72} color='#D1A121' className="pr-4 mt-4" onClick={() => setMobile(true)} />}
+        {mobile ? <IoClose size={72} color='#D1A121' className="pr-2 mt-2" onClick={() => setMobile(false)} /> : <IoMenu size={72} color='#D1A121' className="pr-4 mt-4" onClick={() => setMobile(true)} />}
       </div>
       {/* Menu para escritorio*/}
       <div className='sm:flex hidden flex-row items-center justify-between w-[80%]'>
