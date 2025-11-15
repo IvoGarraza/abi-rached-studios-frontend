@@ -29,7 +29,7 @@ const Loader = () => {
         transition={{delay:0.4}}
         className="w-full flex items-center justify-center "
         >
-            <Image src={logo} className="w-1/2 animate-pulse"></Image>
+            <Image src={logo} alt="logo-inicial" className="w-1/2 animate-pulse"></Image>
         </motion.div>
 
       </motion.div>
