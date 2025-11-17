@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Loader = () => {
   return (
-    <div className="w-full fixed z-[1000] flex flex-row h-screen">
+    <div className="w-full fixed z-[1000] flex flex-row h-screen pointer-events-none">
       <motion.div
         initial={{ height: "100%" }}
         animate={{ height: "0%" }}
