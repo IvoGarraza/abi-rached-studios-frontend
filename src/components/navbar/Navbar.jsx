@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import logo from '../../../public/assets/images/logo.png'
+import logo from '../../assets/images/logo.png'
 import Image from 'next/image'
 import { IoMenu } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";

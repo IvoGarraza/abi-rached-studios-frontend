@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import logo from "../../../public/assets/images/logo-black.png";
+import logo from "../../assets/images/logo-black.png";
 import Image from "next/image";
 
 const Loader = () => {
