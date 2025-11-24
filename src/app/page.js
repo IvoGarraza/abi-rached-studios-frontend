@@ -5,6 +5,7 @@ import Loader from "@/components/loader/Loader.jsx"
 import Bento from "@/sections/Bento/Bento";
 import Talents from "@/sections/Talents/Talents";
 import Contact from "@/sections/Contact/Contact";
+import Apply from "@/components/Forms/ApplyForm";
 
 export default function Home() {
   return (

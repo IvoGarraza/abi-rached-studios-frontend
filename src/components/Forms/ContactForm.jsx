@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Send, Hash, MessageSquare, User } from 'lucide-react'; 
+import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/contact'; 
+const API_URL = 'http://localhost:3001/api/contact/contactMessage'; 
 
 const ContactForm = ({ switchToLogin }) => {
     const [formData, setFormData] = useState({
@@ -65,34 +66,26 @@ const ContactForm = ({ switchToLogin }) => {
         setIsLoading(true);
         
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
+            const response = await axios.post(API_URL, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload),
             });
 
-            const result = await response.json();
+            const result = response.data;
 
-            if (response.ok) {
-                setSuccess(result.message || '¡Formulario enviado! Gracias por tu contacto y soporte.');
-                setError('');
-                // Limpiar campos de contenido para que el usuario pueda enviar otro mensaje
-                setFormData(prev => ({ 
-                    ...prev, 
-                    message: '', 
-                    subject: 'Seleccioná un motivo',
-                }));
-            } else {
-                const errorMessage = result.message || 'Error desconocido al enviar el mensaje. Revisa la consola del servidor.';
-                setError(errorMessage);
-                setSuccess('');
-            }
-
+            setSuccess(result.message || '¡Formulario enviado! Gracias por contactarnos.');
+            setError('');
+            // Limpiar campos de contenido para que el usuario pueda enviar otro mensaje
+            setFormData(prev => ({ 
+                ...prev, 
+                message: '', 
+                subject: 'Seleccioná un motivo',
+            }));
         } catch (err) {
             console.error('Error de red o CORS:', err);
-            setError('Fallo la conexión con el servidor. Verifica que el backend esté corriendo en: ' + API_URL);
+            const errorMessage = err.response?.data?.message || err.message || 'Fallo la conexión con el servidor. Verifica que el backend esté corriendo en: ' + API_URL;
+            setError(errorMessage);
             setSuccess('');
         } finally {
             setIsLoading(false);

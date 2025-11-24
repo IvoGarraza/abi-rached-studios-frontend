@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Send, Briefcase, Upload, Link, FileText } from 'lucide-react'; 
 import axios from 'axios';
 
-const API_URL = '/api/aplications'; 
+const API_URL = 'http://localhost:3001/api/applications/applicationSend'; 
 
 const Apply = ({ switchToLogin }) => {
     const [formData, setFormData] = useState({
