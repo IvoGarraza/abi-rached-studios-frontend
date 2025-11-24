@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import logo from "../../../public/images/logo-square-color.webp";
-import smoke from '../../../public/images/smoke-background-bento.webp'
-import team from '../../../public/images/team.webp'
+import logo from "../../assets/images/logo-square-color.webp";
+import smoke from '../../assets/images/smoke-background-bento.webp'
+import team from '../../assets/images/team.webp'
 
 const Bento = () => {
   return (
