@@ -42,7 +42,7 @@ const Register = ({ switchToLogin, switchToContact }) => {
             setIsLoading(false);
             
             // Simulación de éxito/error. En un entorno real, esto sería una llamada API
-            if (email.endsWith('@new.user')) {
+            if (email.endsWith('@gmail.com')) {
                 setSuccess('¡Registro exitoso! Puedes iniciar sesión.');
                 setTimeout(switchToLogin, 1500); 
             } else {

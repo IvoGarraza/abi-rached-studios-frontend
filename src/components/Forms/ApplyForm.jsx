@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Send, Hash, MessageSquare, Briefcase, Upload, Link, FileText } from 'lucide-react'; 
+import { Send, Briefcase, Upload, Link, FileText } from 'lucide-react'; 
+import axios from 'axios';
 
+const API_URL = '/api/aplications'; 
 
 const Apply = ({ switchToLogin }) => {
     const [formData, setFormData] = useState({
@@ -24,7 +26,7 @@ const Apply = ({ switchToLogin }) => {
         setSuccess('');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
@@ -35,12 +37,28 @@ const Apply = ({ switchToLogin }) => {
 
         setIsLoading(true);
         
-        // Simulación de envío de postulación
-        setTimeout(() => {
+       // --- PREPARACIÓN DE DATOS PARA EL BACKEND ---
+        // 1. Creamos un objeto FormData para enviar datos mixtos (texto y archivo).
+        const dataToSend = new FormData();
+        dataToSend.append('website', formData.website);
+        dataToSend.append('cvFile', formData.cvFile); 
+        
+        try {
+            const response = await axios.post(API_URL, dataToSend);
+
+            const result = response.data; 
+            setSuccess(result.message || `¡Postulación enviada con éxito! Archivo: ${formData.cvFile.name}`);
+            
+            // Opcional: limpiar el formulario después del éxito
+            setFormData({ website: '', cvFile: null }); 
+
+        } catch (err) {
+            console.error('Error de postulación:', err);
+            const errorMessage = err.response?.data?.message || err.message || 'Ocurrió un error de conexión. Inténtalo de nuevo.';
+            setError(errorMessage);
+        } finally {
             setIsLoading(false);
-            setSuccess(`¡Postulación enviada con éxito! Archivo: ${formData.cvFile.name}, Web: ${formData.website}`);
-            // En un entorno real, resetearías los campos
-        }, 2500);
+        }
     };
 
     // Estilo para el botón de subida de archivo
