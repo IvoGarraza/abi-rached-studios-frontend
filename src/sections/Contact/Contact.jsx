@@ -3,7 +3,9 @@ import ContactForm from '@/components/Forms/ContactForm'
 
 const Contact = () => {
   return (
-    <ContactForm></ContactForm>
+    <div className='w-full bg-black flex items-center justify-center'>
+      <ContactForm></ContactForm>
+    </div>
   )
 }
 
