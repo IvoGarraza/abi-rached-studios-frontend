@@ -6,6 +6,8 @@ import Bento from "@/sections/Bento/Bento";
 import Talents from "@/sections/Talents/Talents";
 import Contact from "@/sections/Contact/Contact";
 import Apply from "@/components/Forms/ApplyForm";
+import Login from "@/components/Forms/LoginForm";
+import Register from "@/components/Forms/RegisterForm";
 
 export default function Home() {
   return (
@@ -16,6 +18,8 @@ export default function Home() {
       <Bento></Bento>
       <Talents></Talents>
       <Contact></Contact>
+      <Login></Login>
+      <Register></Register>
     </div>
   );
 }

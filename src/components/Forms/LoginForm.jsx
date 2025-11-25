@@ -1,26 +1,61 @@
 import React, { useState } from 'react';
-import { Mail, Lock, LogIn } from 'lucide-react'; 
+import { Mail, Lock, LogIn, Eye, EyeOff } from 'lucide-react'; 
+import axios from 'axios';
 
-const Login = ({ switchToRegister, switchToContact }) => {
+
+const API_URL = 'http://localhost:3001/api/auth/login'; 
+
+const Login = ({ switchToRegister, switchToContact, onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setSuccess('');
+        if (!passwordRegex.test(password)) {
+            setError('La contraseña debe tener al menos una mayúscula, una minúscula, un número y un símbolo, y mínimo 8 caracteres.');
+            return;
+        }
         setIsLoading(true);
 
-        // Simulación de autenticación
-        setTimeout(() => {
-            setIsLoading(false);
-            if (email === 'test@studio.com' && password === 'password') {
-                console.log('Inicio de sesión exitoso!'); 
-            } else {
-                setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
-            }
-        }, 2000);
+      try {
+        const response = await axios.post(API_URL, {
+            email: email,
+            password: password,
+        });
+
+        const result = response.data;
+        setSuccess('¡Inicio de sesión exitoso!');
+        setEmail('');
+        setPassword('');
+        // Manejar el resultado exitoso aquí (por ejemplo, redirigir al usuario)
+        console.log('Inicio de sesión exitoso:', result);
+
+        //onLoginSuccess(result.token, result.user); // Notificar al componente padre sobre el inicio de sesión exitoso
+
+      } catch (error) {
+        if (error.response) {
+            // El servidor respondió con un estado fuera del rango 2xx
+            setError(error.response.data.message || 'Error de inicio de sesión. Por favor, verifica tus credenciales.');
+        } else if (error.request) {
+            // La solicitud fue hecha pero no se recibió respuesta
+            console.error('Error de solicitud:', error.request);
+            setError('No se recibió respuesta del servidor. Por favor, inténtalo de nuevo más tarde.');
+        } else {
+            // Algo sucedió al configurar la solicitud
+            console.error('Error:', error.message);
+            setError('Ocurrió un error al iniciar sesión. Por favor, inténtalo de nuevo.');
+        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     return (
@@ -72,22 +107,35 @@ const Login = ({ switchToRegister, switchToContact }) => {
                         <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             autoComplete="current-password"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="appearance-none block w-full pl-10 pr-3 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
+                            className="appearance-none block w-full pl-10 pr-10 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
                             disabled={isLoading}
                         />
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-purpura focus:outline-none"
+                            tabIndex={-1}
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
                     </div>
                 </div>
 
-                {/* Manejo de Error */}
+                {/* Manejo de Error y Éxito */}
                 {error && (
                     <p className="text-sm text-red-400 bg-red-900 p-3 rounded-lg border border-red-700">
                         {error}
+                    </p>
+                )}
+                {success && (
+                    <p className="text-sm text-green-400 bg-green-900 p-3 rounded-lg border border-green-700">
+                        {success}
                     </p>
                 )}
 

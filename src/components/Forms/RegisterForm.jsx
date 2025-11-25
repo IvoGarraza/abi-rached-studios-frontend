@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, CheckSquare, Zap } from 'lucide-react'; 
+import { User, Mail, Lock, CheckSquare, Zap, Eye, EyeOff } from 'lucide-react'; 
+import axios from 'axios';
+
+const API_URL_REGISTER = 'http://localhost:3001/api/auth/register'; 
 
 const Register = ({ switchToLogin, switchToContact }) => {
     const [formData, setFormData] = useState({
@@ -11,6 +14,9 @@ const Register = ({ switchToLogin, switchToContact }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
   
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +24,7 @@ const Register = ({ switchToLogin, switchToContact }) => {
         setSuccess('');
     };
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
   
         const { name, email, password, confirmPassword } = formData;
@@ -30,25 +36,45 @@ const Register = ({ switchToLogin, switchToContact }) => {
         if (password !== confirmPassword) {
             return setError('Las contraseñas no coinciden.');
         }
-  
-        if (password.length < 6) {
-            return setError('La contraseña debe tener al menos 6 caracteres.');
+
+        if (!passwordRegex.test(password)) {
+            return setError('La contraseña debe tener al menos una mayúscula, una minúscula, un número y un símbolo, y mínimo 8 caracteres.');
         }
   
         setIsLoading(true);
   
-        // Simulación de registro
-        setTimeout(() => {
-            setIsLoading(false);
-            
-            // Simulación de éxito/error. En un entorno real, esto sería una llamada API
-            if (email.endsWith('@gmail.com')) {
-                setSuccess('¡Registro exitoso! Puedes iniciar sesión.');
-                setTimeout(switchToLogin, 1500); 
+        try {
+            const response = await axios.post(API_URL_REGISTER, {
+                name,
+                email,
+                password,
+                confirmPassword
+            });
+  
+            const result = response.data;
+            setSuccess(result.message || '¡Registro exitoso! Ahora puedes iniciar sesión.');
+            setError('');
+            // Opcional: limpiar el formulario después del éxito
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            });
+            setTimeout(switchToLogin, 2000); 
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message || 'Error de registro. Por favor, intenta nuevamente.');
+            } else if (error.request) {
+                console.error('Error de solicitud:', error.request);
+                setError('No se recibió respuesta del servidor. Por favor, inténtalo de nuevo más tarde.');
             } else {
-                setError(`Lo sentimos, el email "${email}" ya está registrado.`);
+                console.error('Error:', error.message);
+                setError('Ocurrió un error al registrar. Por favor, inténtalo de nuevo.');
             }
-        }, 2500);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -124,15 +150,23 @@ const Register = ({ switchToLogin, switchToContact }) => {
                         <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             autoComplete="new-password"
                             required
                             value={formData.password}
                             onChange={handleChange}
-                            placeholder="Mínimo 6 caracteres"
-                            className="appearance-none block w-full pl-10 pr-3 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
+                            placeholder="Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo"
+                            className="appearance-none block w-full pl-10 pr-10 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
                             disabled={isLoading}
                         />
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-purpura focus:outline-none"
+                            tabIndex={-1}
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
                     </div>
                 </div>
                 
@@ -148,15 +182,23 @@ const Register = ({ switchToLogin, switchToContact }) => {
                         <input
                             id="confirmPassword"
                             name="confirmPassword"
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             autoComplete="new-password"
                             required
                             value={formData.confirmPassword}
                             onChange={handleChange}
                             placeholder="Repite tu contraseña"
-                            className="appearance-none block w-full pl-10 pr-3 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
+                            className="appearance-none block w-full pl-10 pr-10 py-2 bg-gray-700 border-2 border-purpura rounded-lg placeholder-gray-500 focus:outline-none focus-purpura text-white sm:text-sm transition duration-150 ease-in-out"
                             disabled={isLoading}
                         />
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-purpura focus:outline-none"
+                            tabIndex={-1}
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        >
+                            {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
                     </div>
                 </div>
 
