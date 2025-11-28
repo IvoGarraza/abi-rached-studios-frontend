@@ -4,6 +4,7 @@ import logo from '../../assets/images/logo.webp'
 import Image from 'next/image'
 import { IoMenu } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import us from '../../../public/images/us-flag.jpeg'
 
 
 const Navbar = () => {

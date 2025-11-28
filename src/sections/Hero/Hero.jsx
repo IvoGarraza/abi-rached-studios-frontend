@@ -5,21 +5,21 @@ import background from "../../../public/images/background-hero.webp"
 const Hero = () => {
   return (
     <div className="w-full h-screen relative flex  items-center bg-black">
-      <img
+      <Image
         alt="imagen fondo"
         className="absolute inset-0 w-full h-full object-cover object-center"
-        src="../../../public/images/background-hero.webp"
-      ></img>
-      <div className="w-full h-1/2 bg-gradient-to-t from-black to-transparent absolute bottom-0"></div>
-      <div className="w-full h-1/2 bg-gradient-to-b from-black to-transparent absolute top-0"></div>
+        src={background}
+      ></Image>
+      <div className="w-full h-1/2 bg-linear-to-t from-black to-transparent absolute bottom-0"></div>
+      <div className="w-full h-1/2 bg-linear-to-b from-black to-transparent absolute top-0"></div>
       <div className="flex sm:items-start items-center justify-around flex-col h-[55%] sm:w-[45%] w-full px-12 sm:text-start text-center relative z-10">
-        <h3 className="text-3xl text-[#D1A121]">Jugamos, creamos,<br/> conectamos</h3>
+        <h3 className="text-3xl text-oro">Jugamos, creamos,<br/> conectamos</h3>
         <span className="text-white">
           ¡Únete a una aventura épica con La leyenda del Kitsune! Sumergete<br/> en
           un mundo fasciante creado con pasion por Abi Rached Studio.<br/> ¡Únete al
           viaje hoy mismo y experimenta la magia de nuestro próximo lanzamiento!
         </span>
-        <button className="uppercase bg-[#D1A121] p-2 text-black text-xl sm:w-auto w-full font-medium rounded-md">Descarga el juego</button>
+        <button className="uppercase bg-oro p-2 text-black text-xl sm:w-auto w-full font-medium rounded-md">Descarga el juego</button>
       </div>
     </div>
   );
