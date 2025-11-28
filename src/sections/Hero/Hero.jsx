@@ -1,15 +1,15 @@
 import Image from "next/image";
 import React from "react";
-import background from "../../assets/images/background-hero.png";
+import background from "../../../public/images/background-hero.webp"
 
 const Hero = () => {
   return (
     <div className="w-full h-screen relative flex  items-center bg-black">
-      <Image
+      <img
         alt="imagen fondo"
         className="absolute inset-0 w-full h-full object-cover object-center"
-        src={background}
-      ></Image>
+        src="../../../public/images/background-hero.webp"
+      ></img>
       <div className="w-full h-1/2 bg-gradient-to-t from-black to-transparent absolute bottom-0"></div>
       <div className="w-full h-1/2 bg-gradient-to-b from-black to-transparent absolute top-0"></div>
       <div className="flex sm:items-start items-center justify-around flex-col h-[55%] sm:w-[45%] w-full px-12 sm:text-start text-center relative z-10">
